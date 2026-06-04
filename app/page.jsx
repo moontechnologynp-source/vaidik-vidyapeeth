@@ -1,4 +1,3 @@
-//home
 "use client";
 
 import { useMemo, useState } from "react";
