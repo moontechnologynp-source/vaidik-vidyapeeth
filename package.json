@@ -1,0 +1,21 @@
+{
+  "name": "vaidik-vidyapeeth",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "latest",
+    "framer-motion": "^12.40.0",
+    "install": "^0.13.0",
+    "lucide-react": "^1.16.0",
+    "next": "latest",
+    "npm": "^11.15.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwindcss": "latest"
+  }
+}
