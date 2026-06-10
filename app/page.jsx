@@ -140,15 +140,14 @@ export default function HomePage() {
                     href="/admissions"
                     className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:bg-amber-50"
                   >
-                    Apply for Admission
+                    <span className="flex-1 text-center">Apply for Admission</span>
                     <ArrowRight className="h-4 w-4 transition duration-300 group-hover:translate-x-1" />
                   </Link>
 
                   <Link
                     href="/academics"
                     className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:bg-white/20"
-                  >
-                    View Academic Programs
+                  ><span className="flex-1 text-center">View Academic Programs</span>
                   </Link>
                 </motion.div>
 
@@ -325,16 +324,14 @@ export default function HomePage() {
                   variants={fadeUp}
                   whileHover={{ y: -9 }}
                   transition={{ type: "spring", stiffness: 240, damping: 18 }}
-                  className={`feature-card rounded-[2rem] border p-7 shadow-xl transition ${
-                    item.strong
-                      ? "feature-card-strong border-transparent bg-slate-950 text-white shadow-slate-900/20"
-                      : "border-black/10 bg-white/80 text-slate-900 shadow-slate-900/5 backdrop-blur-xl"
-                  }`}
+                  className={`feature-card rounded-[2rem] border p-7 shadow-xl transition ${item.strong
+                    ? "feature-card-strong border-transparent bg-slate-950 text-white shadow-slate-900/20"
+                    : "border-black/10 bg-white/80 text-slate-900 shadow-slate-900/5 backdrop-blur-xl"
+                    }`}
                 >
                   <p
-                    className={`feature-label text-xs font-bold uppercase tracking-[0.22em] ${
-                      item.strong ? "text-amber-200" : "text-rose-700"
-                    }`}
+                    className={`feature-label text-xs font-bold uppercase tracking-[0.22em] ${item.strong ? "text-amber-200" : "text-rose-700"
+                      }`}
                   >
                     {item.label}
                   </p>
@@ -344,9 +341,8 @@ export default function HomePage() {
                   </h3>
 
                   <p
-                    className={`feature-copy mt-4 text-sm leading-7 ${
-                      item.strong ? "text-white/70" : "text-slate-600"
-                    }`}
+                    className={`feature-copy mt-4 text-sm leading-7 ${item.strong ? "text-white/70" : "text-slate-600"
+                      }`}
                   >
                     {item.text}
                   </p>
@@ -518,16 +514,14 @@ export default function HomePage() {
                       onClick={() => setActiveProgram(index)}
                       whileHover={{ x: 7, scale: 1.01 }}
                       whileTap={{ scale: 0.98 }}
-                      className={`rounded-[1.6rem] border p-5 text-left transition duration-300 ${
-                        isActive
-                          ? "border-transparent bg-slate-950 text-white shadow-2xl shadow-slate-900/20"
-                          : "border-black/10 bg-white/75 text-slate-900 shadow-lg shadow-slate-900/5 hover:bg-white hover:shadow-xl"
-                      }`}
+                      className={`rounded-[1.6rem] border p-5 text-left transition duration-300 ${isActive
+                        ? "border-transparent bg-slate-950 text-white shadow-2xl shadow-slate-900/20"
+                        : "border-black/10 bg-white/75 text-slate-900 shadow-lg shadow-slate-900/5 hover:bg-white hover:shadow-xl"
+                        }`}
                     >
                       <p
-                        className={`text-xs font-bold uppercase tracking-[0.22em] ${
-                          isActive ? "text-amber-200" : "text-rose-700"
-                        }`}
+                        className={`text-xs font-bold uppercase tracking-[0.22em] ${isActive ? "text-amber-200" : "text-rose-700"
+                          }`}
                       >
                         {program.stage || "Level"}
                       </p>
