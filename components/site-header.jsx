@@ -83,7 +83,6 @@ export default function SiteHeader() {
             </button>
           </div>
 
-          {/* Desktop nav starts only from lg */}
           <nav
             id="site-navigation"
             className={`${isMenuOpen ? "flex" : "hidden"

@@ -1,6 +1,7 @@
 import SectionHeading from "../../components/section-heading";
 import SiteShell from "../../components/site-shell";
 import { contactInfo } from "../../lib/site-content";
+import LeadForm from "../../components/leadform";
 
 const visitReasons = [
   {
@@ -20,29 +21,33 @@ const visitReasons = [
 export default function ContactPage() {
   return (
     <SiteShell>
+
+      {/* ===================== LEAD CAPTURE SECTION ===================== */}
       <section className="page-hero page-hero-cool">
-        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:px-10 lg:py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:px-10 lg:py-20">
+
+          {/* Left content */}
           <div>
-            <p className="section-eyebrow">Contact</p>
-            <h1 className="page-title">Visit the school and begin the conversation.</h1>
+            <p className="section-eyebrow">Admissions / Enquiry</p>
+            <h1 className="page-title">
+              Send an enquiry or request admission information.
+            </h1>
             <p className="page-copy">
-              Families can connect with the school for admissions, academic questions, campus visits, and class
-              placement guidance.
+              Fill out the form and our admissions team will respond shortly.
+              Your enquiry can be sent directly to our CRM or backend system for follow-up.
             </p>
           </div>
 
-          <div className="page-panel">
-            <p className="feature-label">Visit The School</p>
-            <h3 className="feature-title">Kathmandu-32, Koteshwor</h3>
-            <p className="feature-copy">
-              A visit is the best way to understand the atmosphere, daily routine, and learning culture.
-            </p>
-          </div>
+          {/* Client-side form */}
+          <LeadForm />
+
         </div>
       </section>
 
+      {/* ===================== CONTACT DETAILS ===================== */}
       <section className="section-block">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 py-18 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:px-10">
+
           <SectionHeading
             eyebrow="Contact Details"
             title="Reach the school directly for visits and inquiries."
@@ -57,11 +62,14 @@ export default function ContactPage() {
               </article>
             ))}
           </div>
+
         </div>
       </section>
 
+      {/* ===================== WHY VISIT ===================== */}
       <section className="section-block section-soft">
         <div className="mx-auto max-w-7xl px-6 py-18 sm:px-8 lg:px-10">
+
           <SectionHeading
             eyebrow="Why Visit"
             title="A campus visit gives families the clearest picture."
@@ -78,8 +86,10 @@ export default function ContactPage() {
               </article>
             ))}
           </div>
+
         </div>
       </section>
+
     </SiteShell>
   );
 }
