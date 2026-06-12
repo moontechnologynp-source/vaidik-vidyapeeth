@@ -380,11 +380,11 @@ export default function HomePage() {
                   key={item.label}
                   whileHover={{ y: -10, scale: 1.015 }}
                   transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                  className={`${item.className} group relative min-h-[360px] overflow-hidden rounded-[2rem] shadow-2xl shadow-slate-900/15`}
+                  className={`${item.className} group relative min-h-[360px] overflow-hidden rounded-full shadow-2xl shadow-slate-900/15`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent transition duration-500 group-hover:from-black/80" />
 
-                  <span className="relative z-10 mt-auto inline-flex rounded-full border border-white/25 bg-white/15 px-5 py-2 text-sm font-semibold text-white shadow-lg backdrop-blur-md">
+                  <span className="relative z-10 mt-auto inline-flex bg-white/15 px-5 py-2 text-sm font-semibold text-white shadow-lg backdrop-blur-md">
                     {item.label}
                   </span>
 
