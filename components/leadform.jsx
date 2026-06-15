@@ -20,7 +20,7 @@ export default function LeadForm() {
         };
 
         try {
-            // 👉 Replace with your CRM / backend API
+            // Replace with your CRM / backend API
             // await fetch("/api/leads", {
             //   method: "POST",
             //   headers: { "Content-Type": "application/json" },
