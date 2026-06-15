@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Poppins } from "next/font/google";
 import { motion } from "framer-motion";
@@ -30,6 +30,35 @@ const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-poppins",
 });
+
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+
+const fallbackHero = {
+  kicker: "Kathmandu-32, Koteshwor",
+  title: "A school where values, learning, and confidence grow together.",
+  subtitle:
+    "Vaidik Vidyapeeth provides a calm, disciplined, and inspiring learning environment where students are guided academically, socially, and personally.",
+
+  primaryButtonText: "Apply for Admission",
+  primaryButtonLink: "/admissions",
+
+  secondaryButtonText: "View Academic Programs",
+  secondaryButtonLink: "/academics",
+
+  trustItemOne: "Discipline",
+  trustItemTwo: "Confidence",
+  trustItemThree: "Creativity",
+  trustItemFour: "Care",
+
+  miniCardValue: "3",
+  miniCardLabel: "Academic wings",
+
+  visualEyebrow: "School Environment",
+  visualTitle: "Structured learning with personal attention",
+  visualText:
+    "A balanced routine that supports academic focus, good manners, classroom participation, and overall student growth.",
+};
 
 const fadeUp = {
   hidden: { opacity: 0, y: 26 },
@@ -70,19 +99,59 @@ const stagger = {
 
 export default function HomePage() {
   const [activeProgram, setActiveProgram] = useState(0);
+  const [hero, setHero] = useState(fallbackHero);
 
   const activeProgramData = useMemo(() => {
     return programs[activeProgram] || programs[0];
   }, [activeProgram]);
+
+  useEffect(() => {
+    const fetchHero = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/hero/page/home`, {
+          cache: "no-store",
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success && data.hero) {
+          setHero({
+            ...fallbackHero,
+            ...data.hero,
+          });
+        }
+      } catch (error) {
+        console.error("Hero fetch error:", error);
+      }
+    };
+
+    fetchHero();
+  }, []);
+
+  const trustItems = [
+    hero.trustItemOne,
+    hero.trustItemTwo,
+    hero.trustItemThree,
+    hero.trustItemFour,
+  ].filter(Boolean);
 
   return (
     <SiteShell>
       <main
         className={`${poppins.variable} overflow-hidden bg-[#f8f4ec] font-[var(--font-poppins)] text-slate-900`}
       >
-        {/* HERO - PHOTOS / BACKGROUNDS KEPT */}
+        {/* HERO - BACKEND CONNECTED */}
         <section className="hero-shell relative overflow-hidden">
-          <div className="hero-backdrop" />
+          <div
+            className="hero-backdrop"
+            style={
+              hero.backgroundImage
+                ? {
+                    backgroundImage: `url(${hero.backgroundImage})`,
+                  }
+                : undefined
+            }
+          />
           <div className="hero-overlay" />
 
           <motion.div
@@ -108,68 +177,79 @@ export default function HomePage() {
                 animate="visible"
                 className="hero-copy max-w-3xl"
               >
-                <motion.p
-                  variants={fadeUp}
-                  className="hero-kicker inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white shadow-lg shadow-black/10 backdrop-blur-md"
-                >
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Kathmandu-32, Koteshwor
-                </motion.p>
+                {hero.kicker && (
+                  <motion.p
+                    variants={fadeUp}
+                    className="hero-kicker inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white shadow-lg shadow-black/10 backdrop-blur-md"
+                  >
+                    <Sparkles className="h-3.5 w-3.5" />
+                    {hero.kicker}
+                  </motion.p>
+                )}
 
                 <motion.h1
                   variants={fadeUp}
                   className="hero-title mt-6 max-w-4xl text-balance text-4xl font-extrabold leading-[1.05] tracking-[-0.04em] text-white drop-shadow-xl sm:text-5xl lg:text-7xl"
                 >
-                  A school where values, learning, and confidence grow together.
+                  {hero.title}
                 </motion.h1>
 
-                <motion.p
-                  variants={fadeUp}
-                  className="hero-text mt-6 max-w-2xl text-sm font-normal leading-7 text-white/82 sm:text-base"
-                >
-                  Vaidik Vidyapeeth provides a calm, disciplined, and inspiring
-                  learning environment where students are guided academically,
-                  socially, and personally.
-                </motion.p>
+                {hero.subtitle && (
+                  <motion.p
+                    variants={fadeUp}
+                    className="hero-text mt-6 max-w-2xl text-sm font-normal leading-7 text-white/82 sm:text-base"
+                  >
+                    {hero.subtitle}
+                  </motion.p>
+                )}
 
                 <motion.div
                   variants={fadeUp}
                   className="mt-8 flex flex-wrap gap-3"
                 >
-                  <Link
-                    href="/admissions"
-                    className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:bg-amber-50"
-                  >
-                    <span className="flex-1 text-center">Apply for Admission</span>
-                    <ArrowRight className="h-4 w-4 transition duration-300 group-hover:translate-x-1" />
-                  </Link>
+                  {hero.primaryButtonText && hero.primaryButtonLink && (
+                    <Link
+                      href={hero.primaryButtonLink}
+                      className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:bg-amber-50"
+                    >
+                      <span className="flex-1 text-center">
+                        {hero.primaryButtonText}
+                      </span>
+                      <ArrowRight className="h-4 w-4 transition duration-300 group-hover:translate-x-1" />
+                    </Link>
+                  )}
 
-                  <Link
-                    href="/academics"
-                    className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:bg-white/20"
-                  ><span className="flex-1 text-center">View Academic Programs</span>
-                  </Link>
+                  {hero.secondaryButtonText && hero.secondaryButtonLink && (
+                    <Link
+                      href={hero.secondaryButtonLink}
+                      className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:bg-white/20"
+                    >
+                      <span className="flex-1 text-center">
+                        {hero.secondaryButtonText}
+                      </span>
+                    </Link>
+                  )}
                 </motion.div>
 
-                <motion.div
-                  variants={fadeUp}
-                  className="hero-trust-row mt-8 flex flex-wrap gap-2"
-                  aria-label="School values"
-                >
-                  {["Discipline", "Confidence", "Creativity", "Care"].map(
-                    (item) => (
+                {trustItems.length > 0 && (
+                  <motion.div
+                    variants={fadeUp}
+                    className="hero-trust-row mt-8 flex flex-wrap gap-2"
+                    aria-label="School values"
+                  >
+                    {trustItems.map((item) => (
                       <span
                         key={item}
                         className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white/85 backdrop-blur-md"
                       >
                         {item}
                       </span>
-                    )
-                  )}
-                </motion.div>
+                    ))}
+                  </motion.div>
+                )}
               </motion.div>
 
-              {/* RIGHT PANEL - ORIGINAL VISUAL KEPT */}
+              {/* RIGHT PANEL */}
               <motion.aside
                 initial={{ opacity: 0, y: 34, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -180,32 +260,52 @@ export default function HomePage() {
                   whileHover={{ scale: 1.015 }}
                   transition={{ duration: 0.3 }}
                   className="hero-visual relative overflow-hidden rounded-[1.65rem]"
+                  style={
+                    hero.panelImage
+                      ? {
+                          backgroundImage: `url(${hero.panelImage})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                        }
+                      : undefined
+                  }
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-                  <div className="hero-mini-card absolute left-5 top-5 z-10 rounded-2xl border border-white/25 bg-white/90 px-5 py-4 text-slate-950 shadow-xl backdrop-blur-md">
-                    <span className="hero-mini-card-value block text-3xl font-extrabold leading-none">
-                      3
-                    </span>
-                    <span className="hero-mini-card-label mt-1 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Academic wings
-                    </span>
-                  </div>
+                  {(hero.miniCardValue || hero.miniCardLabel) && (
+                    <div className="hero-mini-card absolute left-5 top-5 z-10 rounded-2xl border border-white/25 bg-white/90 px-5 py-4 text-slate-950 shadow-xl backdrop-blur-md">
+                      {hero.miniCardValue && (
+                        <span className="hero-mini-card-value block text-3xl font-extrabold leading-none">
+                          {hero.miniCardValue}
+                        </span>
+                      )}
+
+                      {hero.miniCardLabel && (
+                        <span className="hero-mini-card-label mt-1 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                          {hero.miniCardLabel}
+                        </span>
+                      )}
+                    </div>
+                  )}
 
                   <div className="hero-visual-copy relative z-10 flex min-h-[360px] flex-col justify-end p-6 text-white">
-                    <p className="hero-visual-eyebrow text-xs font-semibold uppercase tracking-[0.24em] text-amber-100">
-                      School Environment
-                    </p>
+                    {hero.visualEyebrow && (
+                      <p className="hero-visual-eyebrow text-xs font-semibold uppercase tracking-[0.24em] text-amber-100">
+                        {hero.visualEyebrow}
+                      </p>
+                    )}
 
-                    <h3 className="hero-visual-title mt-2 max-w-md text-2xl font-bold leading-tight tracking-[-0.02em] sm:text-3xl">
-                      Structured learning with personal attention
-                    </h3>
+                    {hero.visualTitle && (
+                      <h3 className="hero-visual-title mt-2 max-w-md text-2xl font-bold leading-tight tracking-[-0.02em] sm:text-3xl">
+                        {hero.visualTitle}
+                      </h3>
+                    )}
 
-                    <p className="hero-visual-text mt-3 max-w-md text-sm leading-7 text-white/78">
-                      A balanced routine that supports academic focus, good
-                      manners, classroom participation, and overall student
-                      growth.
-                    </p>
+                    {hero.visualText && (
+                      <p className="hero-visual-text mt-3 max-w-md text-sm leading-7 text-white/78">
+                        {hero.visualText}
+                      </p>
+                    )}
                   </div>
                 </motion.div>
 
@@ -214,7 +314,11 @@ export default function HomePage() {
                     <motion.div
                       key={item}
                       whileHover={{ x: 6, scale: 1.01 }}
-                      transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 20,
+                      }}
                       className="highlight-row flex items-center gap-3 rounded-2xl border border-white/18 bg-white/12 px-4 py-3 text-sm font-medium text-white shadow-lg shadow-black/10 backdrop-blur-md"
                     >
                       <span className="highlight-dot h-2.5 w-2.5 rounded-full bg-amber-200 shadow-[0_0_18px_rgba(253,230,138,0.9)]" />
@@ -324,14 +428,16 @@ export default function HomePage() {
                   variants={fadeUp}
                   whileHover={{ y: -9 }}
                   transition={{ type: "spring", stiffness: 240, damping: 18 }}
-                  className={`feature-card rounded-[2rem] border p-7 shadow-xl transition ${item.strong
-                    ? "feature-card-strong border-transparent bg-slate-950 text-white shadow-slate-900/20"
-                    : "border-black/10 bg-white/80 text-slate-900 shadow-slate-900/5 backdrop-blur-xl"
-                    }`}
+                  className={`feature-card rounded-[2rem] border p-7 shadow-xl transition ${
+                    item.strong
+                      ? "feature-card-strong border-transparent bg-slate-950 text-white shadow-slate-900/20"
+                      : "border-black/10 bg-white/80 text-slate-900 shadow-slate-900/5 backdrop-blur-xl"
+                  }`}
                 >
                   <p
-                    className={`feature-label text-xs font-bold uppercase tracking-[0.22em] ${item.strong ? "text-amber-200" : "text-rose-700"
-                      }`}
+                    className={`feature-label text-xs font-bold uppercase tracking-[0.22em] ${
+                      item.strong ? "text-amber-200" : "text-rose-700"
+                    }`}
                   >
                     {item.label}
                   </p>
@@ -341,8 +447,9 @@ export default function HomePage() {
                   </h3>
 
                   <p
-                    className={`feature-copy mt-4 text-sm leading-7 ${item.strong ? "text-white/70" : "text-slate-600"
-                      }`}
+                    className={`feature-copy mt-4 text-sm leading-7 ${
+                      item.strong ? "text-white/70" : "text-slate-600"
+                    }`}
                   >
                     {item.text}
                   </p>
@@ -352,7 +459,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CAMPUS STRIP - ORIGINAL PHOTO SECTION KEPT */}
+        {/* CAMPUS STRIP */}
         <section className="section-block section-soft relative overflow-hidden">
           <div className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-10">
             <motion.div
@@ -514,14 +621,16 @@ export default function HomePage() {
                       onClick={() => setActiveProgram(index)}
                       whileHover={{ x: 7, scale: 1.01 }}
                       whileTap={{ scale: 0.98 }}
-                      className={`rounded-[1.6rem] border p-5 text-left transition duration-300 ${isActive
-                        ? "border-transparent bg-slate-950 text-white shadow-2xl shadow-slate-900/20"
-                        : "border-black/10 bg-white/75 text-slate-900 shadow-lg shadow-slate-900/5 hover:bg-white hover:shadow-xl"
-                        }`}
+                      className={`rounded-[1.6rem] border p-5 text-left transition duration-300 ${
+                        isActive
+                          ? "border-transparent bg-slate-950 text-white shadow-2xl shadow-slate-900/20"
+                          : "border-black/10 bg-white/75 text-slate-900 shadow-lg shadow-slate-900/5 hover:bg-white hover:shadow-xl"
+                      }`}
                     >
                       <p
-                        className={`text-xs font-bold uppercase tracking-[0.22em] ${isActive ? "text-amber-200" : "text-rose-700"
-                          }`}
+                        className={`text-xs font-bold uppercase tracking-[0.22em] ${
+                          isActive ? "text-amber-200" : "text-rose-700"
+                        }`}
                       >
                         {program.stage || "Level"}
                       </p>

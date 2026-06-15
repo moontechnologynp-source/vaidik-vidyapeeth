@@ -17,6 +17,8 @@ export default function AdminEditor({
   section: SectionItem;
 }) {
   const sectionId = section.id.toLowerCase();
+  const isHeroSection =
+    sectionId.includes("hero") && !sectionId.includes("carousel");
 
   return (
     <div className="rounded-[2rem] border border-black/10 bg-white/85 p-6 shadow-2xl shadow-slate-900/8 backdrop-blur-xl">
@@ -35,16 +37,18 @@ export default function AdminEditor({
           </p>
         </div>
 
-        <button
-          type="button"
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-rose-800"
-        >
-          <Save className="h-4 w-4" />
-          Save Section
-        </button>
+        {!isHeroSection && (
+          <button
+            type="button"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-rose-800"
+          >
+            <Save className="h-4 w-4" />
+            Save Section
+          </button>
+        )}
       </div>
 
-      {sectionId.includes("hero") && !sectionId.includes("carousel") ? (
+      {isHeroSection ? (
         <HeroShell section={section} />
       ) : sectionId.includes("cta") ? (
         <SimpleFieldsShell section={section} />
