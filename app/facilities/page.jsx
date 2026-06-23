@@ -24,9 +24,9 @@ export default function FacilitiesPage() {
       <section className="page-hero page-hero-dark">
         <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:px-10 lg:py-20">
           <div>
-            <p className="section-eyebrow text-white/70">Facilities</p>
+            <p className="section-eyebrow text-white">Facilities</p>
             <h1 className="page-title text-white">Campus spaces for learning, reading, activity, and expression.</h1>
-            <p className="page-copy text-white/80">
+            <p className="page-copy text-white">
               The school environment supports focused classroom learning, hands-on work, movement, creativity, and
               safe student routines.
             </p>

@@ -291,7 +291,7 @@ a {
 .page-title {
   max-width: 16ch;
   font-size: 2.2rem;
-  color: var(--ink);
+  /* color: var(--ink); */
 }
 
 .hero-text,
@@ -301,7 +301,7 @@ a {
   max-width: 44rem;
   font-size: 1rem;
   line-height: 1.9;
-  color: var(--muted);
+  /* color: var(--muted); */
 }
 
 .hero-text {

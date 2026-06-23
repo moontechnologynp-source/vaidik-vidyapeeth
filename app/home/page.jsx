@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Poppins } from "next/font/google";
 import { motion } from "framer-motion";
@@ -14,8 +14,8 @@ import {
     Sparkles,
 } from "lucide-react";
 
-import SectionHeading from "../components/section-heading";
-import SiteShell from "../components/site-shell";
+import SectionHeading from "../../components/section-heading";
+import SiteShell from "../../components/site-shell";
 import {
     facilities,
     highlights,
@@ -23,7 +23,7 @@ import {
     quickFacts,
     schoolStrengths,
     updates,
-} from "../lib/site-content";
+} from "../../lib/site-content";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -31,10 +31,7 @@ const poppins = Poppins({
     variable: "--font-poppins",
 });
 
-const API_BASE =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
-
-const fallbackHero = {
+const hero = {
     kicker: "Kathmandu-32, Koteshwor",
     title: "A school where values, learning, and confidence grow together.",
     subtitle:
@@ -99,34 +96,10 @@ const stagger = {
 
 export default function HomePage() {
     const [activeProgram, setActiveProgram] = useState(0);
-    const [hero, setHero] = useState(fallbackHero);
 
     const activeProgramData = useMemo(() => {
         return programs[activeProgram] || programs[0];
     }, [activeProgram]);
-
-    useEffect(() => {
-        const fetchHero = async () => {
-            try {
-                const res = await fetch(`${API_BASE}/hero/page/home`, {
-                    cache: "no-store",
-                });
-
-                const data = await res.json();
-
-                if (res.ok && data.success && data.hero) {
-                    setHero({
-                        ...fallbackHero,
-                        ...data.hero,
-                    });
-                }
-            } catch (error) {
-                console.error("Hero fetch error:", error);
-            }
-        };
-
-        fetchHero();
-    }, []);
 
     const trustItems = [
         hero.trustItemOne,
@@ -140,18 +113,9 @@ export default function HomePage() {
             <main
                 className={`${poppins.variable} overflow-hidden bg-[#f8f4ec] font-[var(--font-poppins)] text-slate-900`}
             >
-                {/* HERO - BACKEND CONNECTED */}
+                {/* HERO */}
                 <section className="hero-shell relative overflow-hidden">
-                    <div
-                        className="hero-backdrop"
-                        style={
-                            hero.backgroundImage
-                                ? {
-                                    backgroundImage: `url(${hero.backgroundImage})`,
-                                }
-                                : undefined
-                        }
-                    />
+                    <div className="hero-backdrop" />
                     <div className="hero-overlay" />
 
                     <motion.div
@@ -203,10 +167,7 @@ export default function HomePage() {
                                     </motion.p>
                                 )}
 
-                                <motion.div
-                                    variants={fadeUp}
-                                    className="mt-8 flex flex-wrap gap-3"
-                                >
+                                <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-3">
                                     {hero.primaryButtonText && hero.primaryButtonLink && (
                                         <Link
                                             href={hero.primaryButtonLink}
@@ -260,15 +221,6 @@ export default function HomePage() {
                                     whileHover={{ scale: 1.015 }}
                                     transition={{ duration: 0.3 }}
                                     className="hero-visual relative overflow-hidden rounded-[1.65rem]"
-                                    style={
-                                        hero.panelImage
-                                            ? {
-                                                backgroundImage: `url(${hero.panelImage})`,
-                                                backgroundSize: "cover",
-                                                backgroundPosition: "center",
-                                            }
-                                            : undefined
-                                    }
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
@@ -329,7 +281,7 @@ export default function HomePage() {
                             </motion.aside>
                         </div>
 
-                        {/* QUICK FACTS KEPT */}
+                        {/* QUICK FACTS */}
                         <motion.div
                             variants={stagger}
                             initial="hidden"
@@ -389,11 +341,11 @@ export default function HomePage() {
                                 </div>
 
                                 <p className="text-sm leading-8 text-slate-700 sm:text-base">
-                                    From classroom learning to school activities, every part of
-                                    the day is designed to help students build discipline,
+                                    From classroom learning to school activities, every part of the
+                                    day is designed to help students build discipline,
                                     communication, confidence, and responsibility. Families can
-                                    expect a caring environment where children are noticed,
-                                    guided, and encouraged.
+                                    expect a caring environment where children are noticed, guided,
+                                    and encouraged.
                                 </p>
                             </motion.div>
                         </div>
@@ -800,9 +752,8 @@ export default function HomePage() {
                                 </h2>
 
                                 <p className="mx-auto mt-5 max-w-2xl text-sm leading-8 text-white/70 sm:text-base">
-                                    Connect with our team to learn more about admissions,
-                                    academic programs, school facilities, and the daily learning
-                                    experience.
+                                    Connect with our team to learn more about admissions, academic
+                                    programs, school facilities, and the daily learning experience.
                                 </p>
 
                                 <div className="mt-8 flex flex-wrap justify-center gap-3">

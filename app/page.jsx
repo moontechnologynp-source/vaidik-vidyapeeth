@@ -32,7 +32,7 @@ const cards = [
     title: "School",
     eyebrow: "Vaidik Vidyapeeth",
     text: "Continue to the main school landing page for academics, admissions, and more.",
-    href: "/",
+    href: "/home",
     external: false,
     icon: GraduationCap,
   },
