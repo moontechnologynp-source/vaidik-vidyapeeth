@@ -24,6 +24,24 @@ import {
 import SiteShell from "../../components/site-shell";
 import { quickFacts, schoolValues } from "../../lib/site-content";
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050/api/v1";
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:5050";
+
+const getImageUrl = (src) => {
+  if (!src) return "";
+
+  if (src.startsWith("http")) return src;
+
+  if (src.startsWith("/images")) return src;
+
+  if (src.startsWith("/uploads")) return `${SITE_URL}${src}`;
+
+  return src;
+};
+
 const nunito = Nunito_Sans({
   subsets: ["latin"],
   variable: "--font-nunito",
@@ -46,6 +64,24 @@ const stagger = {
       staggerChildren: 0.07,
     },
   },
+};
+
+const iconMap = {
+  School,
+  HeartHandshake,
+  BookOpen,
+  MapPin,
+  Sparkles,
+  Users,
+  Star,
+  CheckCircle2,
+  Calculator,
+  ImageIcon,
+};
+
+const getIcon = (iconName, fallback = BookOpen) => {
+  if (!iconName) return fallback;
+  return iconMap[iconName] || fallback;
 };
 
 const heroSlides = [
@@ -102,11 +138,34 @@ const albumImages = [
   },
 ];
 
+const colorStripItems = [
+  {
+    iconName: "School",
+    title: "Academic Care",
+    color: "bg-[#0f766e]",
+  },
+  {
+    iconName: "HeartHandshake",
+    title: "Values First",
+    color: "bg-[#be123c]",
+  },
+  {
+    iconName: "BookOpen",
+    title: "Guided Routine",
+    color: "bg-[#0e7490]",
+  },
+  {
+    iconName: "MapPin",
+    title: "Koteshwor Based",
+    color: "bg-[#2563eb]",
+  },
+];
+
 const identityTabs = [
   {
     key: "mission",
     label: "Mission",
-    icon: HeartHandshake,
+    iconName: "HeartHandshake",
     color: "from-[#0f766e] to-[#0e7490]",
     title: "To nurture capable, confident, and respectful learners.",
     text: "We focus on academic progress while helping students develop responsibility, discipline, communication, and good character.",
@@ -114,7 +173,7 @@ const identityTabs = [
   {
     key: "vision",
     label: "Vision",
-    icon: Sparkles,
+    iconName: "Sparkles",
     color: "from-[#0e7490] to-[#2563eb]",
     title: "To remain rooted while preparing students for change.",
     text: "Our aim is to blend values-based learning with the skills, curiosity, and mindset needed in a modern world.",
@@ -122,7 +181,7 @@ const identityTabs = [
   {
     key: "promise",
     label: "Promise",
-    icon: Users,
+    iconName: "Users",
     color: "from-[#be123c] to-[#db2777]",
     title: "Care, clarity, and visible progress.",
     text: "Parents should feel that communication is clear, expectations are consistent, and student growth is easy to observe.",
@@ -150,7 +209,20 @@ const fitQuestions = [
   "I prefer a school with caring teachers and clear routines.",
 ];
 
+const parseSectionList = (aboutData, sectionId, fallback = []) => {
+  const items = aboutData?.[sectionId];
+
+  if (!items || items.length === 0) return fallback;
+
+  return items.map((item) => item.content || {});
+};
+
+const parseSingleSection = (aboutData, sectionId, fallback = {}) => {
+  return aboutData?.[sectionId]?.[0]?.content || fallback;
+};
+
 export default function AboutPage() {
+  const [aboutData, setAboutData] = useState({});
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeTab, setActiveTab] = useState("mission");
   const [albumFilter, setAlbumFilter] = useState("All");
@@ -166,38 +238,275 @@ export default function AboutPage() {
   const bgY = useTransform(scrollYProgress, [0, 1], [0, -70]);
   const imageY = useTransform(scrollYProgress, [0, 0.65], [0, -32]);
 
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/about`, {
+          cache: "no-store",
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          setAboutData(data.data || {});
+        }
+      } catch (error) {
+        console.log("ABOUT FETCH ERROR:", error);
+      }
+    };
+
+    fetchAboutData();
+  }, []);
+
+  const aboutHero = useMemo(() => {
+    return parseSingleSection(aboutData, "aboutHero", {
+      Kicker: "Kathmandu-32, Koteshwor",
+      Title: "A values-led school with a warmer way of learning.",
+      Description:
+        "Vaidik Vidyapeeth blends care, academic clarity, discipline, creativity, and character-building so every child can grow with confidence.",
+      "Primary Button Text": "Explore Academics",
+      "Primary Button Link": "/academics",
+      "Secondary Button Text": "Book Campus Visit",
+      "Secondary Button Link": "/contact",
+    });
+  }, [aboutData]);
+
+  const dynamicHeroSlides = useMemo(() => {
+    return parseSectionList(aboutData, "aboutHeroCarousel", heroSlides).map(
+      (slide) => ({
+        src: getImageUrl(
+          slide["Image URL"] || slide.src || "/images/school-1.jpg"
+        ),
+        label: slide["Label"] || slide.label || "Learning",
+        title: slide["Title"] || slide.title || "A peaceful place to learn",
+        text:
+          slide["Description"] ||
+          slide.text ||
+          "Bright classrooms, guided routines, and a caring school culture.",
+      })
+    );
+  }, [aboutData]);
+
+  const dynamicQuickFacts = useMemo(() => {
+    return parseSectionList(aboutData, "aboutQuickFacts", quickFacts).map(
+      (fact) => ({
+        value: fact["Value"] || fact.value || "",
+        label: fact["Label"] || fact.label || "",
+      })
+    );
+  }, [aboutData]);
+
+  const dynamicColorStrip = useMemo(() => {
+    return parseSectionList(aboutData, "aboutColorStrip", colorStripItems).map(
+      (item) => ({
+        iconName: item["Icon Name"] || item.iconName || "School",
+        title: item["Title"] || item.title || "Feature",
+        color: item["Color Class"] || item.color || "bg-[#0f766e]",
+      })
+    );
+  }, [aboutData]);
+
+  const dynamicIdentityTabs = useMemo(() => {
+    return parseSectionList(aboutData, "aboutIdentityTabs", identityTabs).map(
+      (tab) => ({
+        key: tab["Key"] || tab.key || "mission",
+        label: tab["Label"] || tab.label || "Mission",
+        iconName: tab["Icon Name"] || tab.iconName || "HeartHandshake",
+        color:
+          tab["Gradient Class"] ||
+          tab.color ||
+          "from-[#0f766e] to-[#0e7490]",
+        title:
+          tab["Title"] ||
+          tab.title ||
+          "To nurture capable, confident, and respectful learners.",
+        text:
+          tab["Description"] ||
+          tab.text ||
+          "We focus on academic progress while helping students develop responsibility, discipline, communication, and good character.",
+      })
+    );
+  }, [aboutData]);
+
+  const feeData = useMemo(() => {
+    return parseSingleSection(aboutData, "aboutFeeCalculator", {
+      "Pre-Primary Base Fee": "4500",
+      "Primary Base Fee": "6000",
+      "Secondary Base Fee": "7500",
+      "Transport Fee": "1800",
+      "Hostel Fee": "6500",
+      "Note Text": "Demo estimate only. Replace numbers with official school fees.",
+    });
+  }, [aboutData]);
+
+  const dynamicFitQuestions = useMemo(() => {
+    return parseSectionList(
+      aboutData,
+      "aboutFitChecker",
+      fitQuestions.map((question) => ({
+        Question: question,
+        "Result Message": "",
+      }))
+    ).map((item) => ({
+      question: item["Question"] || "",
+      resultMessage: item["Result Message"] || "",
+    }));
+  }, [aboutData]);
+
+  const dynamicCoreValues = useMemo(() => {
+    return parseSectionList(aboutData, "aboutCoreValues", schoolValues).map(
+      (item, index) => ({
+        title: item["Title"] || item.title || "",
+        text: item["Description"] || item.text || "",
+        iconName: item["Icon Name"] || "BookOpen",
+        color:
+          item["Color Class"] ||
+          (index === 0
+            ? "bg-[#0f766e]"
+            : index === 1
+            ? "bg-[#be123c]"
+            : "bg-[#0e7490]"),
+      })
+    );
+  }, [aboutData]);
+
+  const dynamicAlbumImages = useMemo(() => {
+    return parseSectionList(aboutData, "aboutAlbum", albumImages).map(
+      (image) => ({
+        src: getImageUrl(
+          image["Image URL"] || image.src || "/images/album-1.jpg"
+        ),
+        title: image["Title"] || image.title || "School Image",
+        category: image["Category"] || image.category || "Events",
+        alt: image["Alt Text"] || image.title || "School image",
+      })
+    );
+  }, [aboutData]);
+
+  const dynamicFaqs = useMemo(() => {
+    return parseSectionList(aboutData, "aboutFaq", faqs).map((faq) => ({
+      q: faq["Question"] || faq.q || "",
+      a: faq["Answer"] || faq.a || "",
+    }));
+  }, [aboutData]);
+
+  const ctaData = useMemo(() => {
+    return parseSingleSection(aboutData, "aboutCta", {
+      Eyebrow: "Visit Our School",
+      Title: "Experience the campus, classrooms, and culture in person.",
+      Description:
+        "Book a visit and see how values, academics, and care come together at Vaidik Vidyapeeth.",
+      "Button Text": "Book Campus Visit",
+      "Button Link": "/contact",
+    });
+  }, [aboutData]);
+
+  useEffect(() => {
+    if (!dynamicHeroSlides.length) return;
+
+    setActiveSlide((prev) => (prev >= dynamicHeroSlides.length ? 0 : prev));
+  }, [dynamicHeroSlides.length]);
+
+  useEffect(() => {
+    if (!dynamicIdentityTabs.length) return;
+
+    const exists = dynamicIdentityTabs.some((tab) => tab.key === activeTab);
+
+    if (!exists) {
+      setActiveTab(dynamicIdentityTabs[0].key);
+    }
+  }, [dynamicIdentityTabs, activeTab]);
+
+  useEffect(() => {
+    setFitAnswers((prev) => {
+      if (prev.length === dynamicFitQuestions.length) return prev;
+      return dynamicFitQuestions.map(() => false);
+    });
+  }, [dynamicFitQuestions.length]);
+
   const activeTabData =
-    identityTabs.find((tab) => tab.key === activeTab) || identityTabs[0];
+    dynamicIdentityTabs.find((tab) => tab.key === activeTab) ||
+    dynamicIdentityTabs[0];
+
+  const albumCategories = useMemo(() => {
+    const categories = dynamicAlbumImages.map((image) => image.category);
+    return ["All", ...Array.from(new Set(categories))];
+  }, [dynamicAlbumImages]);
 
   const filteredAlbum = useMemo(() => {
-    if (albumFilter === "All") return albumImages;
-    return albumImages.filter((image) => image.category === albumFilter);
-  }, [albumFilter]);
+    if (albumFilter === "All") return dynamicAlbumImages;
+
+    return dynamicAlbumImages.filter(
+      (image) => image.category === albumFilter
+    );
+  }, [albumFilter, dynamicAlbumImages]);
 
   const estimatedFee = useMemo(() => {
-    const base =
-      grade === "Pre-Primary" ? 4500 : grade === "Primary" ? 6000 : 7500;
+    const prePrimaryFee = Number(feeData["Pre-Primary Base Fee"]) || 4500;
+    const primaryFee = Number(feeData["Primary Base Fee"]) || 6000;
+    const secondaryFee = Number(feeData["Secondary Base Fee"]) || 7500;
+    const transportFee = Number(feeData["Transport Fee"]) || 1800;
+    const hostelFee = Number(feeData["Hostel Fee"]) || 6500;
 
-    return base + (transport ? 1800 : 0) + (hostel ? 6500 : 0);
-  }, [grade, transport, hostel]);
+    const base =
+      grade === "Pre-Primary"
+        ? prePrimaryFee
+        : grade === "Primary"
+        ? primaryFee
+        : secondaryFee;
+
+    return base + (transport ? transportFee : 0) + (hostel ? hostelFee : 0);
+  }, [grade, transport, hostel, feeData]);
 
   const fitScore = fitAnswers.filter(Boolean).length;
 
+  const fitResultMessage = useMemo(() => {
+    const selectedMessages = dynamicFitQuestions
+      .filter((_, index) => fitAnswers[index])
+      .map((item) => item.resultMessage)
+      .filter(Boolean);
+
+    if (selectedMessages.length > 0) {
+      return selectedMessages[selectedMessages.length - 1];
+    }
+
+    if (
+      fitScore === dynamicFitQuestions.length &&
+      dynamicFitQuestions.length > 0
+    ) {
+      return "Great match for your priorities.";
+    }
+
+    if (fitScore >= 2) {
+      return "Good match. A visit may help confirm.";
+    }
+
+    return "Select what matters most to you.";
+  }, [dynamicFitQuestions, fitAnswers, fitScore]);
+
   const nextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+    if (!dynamicHeroSlides.length) return;
+
+    setActiveSlide((prev) => (prev + 1) % dynamicHeroSlides.length);
   };
 
   const prevSlide = () => {
-    setActiveSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
+    if (!dynamicHeroSlides.length) return;
+
+    setActiveSlide((prev) =>
+      prev === 0 ? dynamicHeroSlides.length - 1 : prev - 1
+    );
   };
 
   useEffect(() => {
+    if (!dynamicHeroSlides.length) return;
+
     const timer = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+      setActiveSlide((prev) => (prev + 1) % dynamicHeroSlides.length);
     }, 4500);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [dynamicHeroSlides.length]);
 
   return (
     <SiteShell>
@@ -227,39 +536,42 @@ export default function AboutPage() {
                 className="mb-4 flex w-fit items-center gap-2 rounded-full border border-[#0f766e]/15 bg-white/80 px-3.5 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#0f766e] shadow-sm backdrop-blur"
               >
                 <Star className="h-3.5 w-3.5 fill-[#be123c] text-[#be123c]" />
-                Kathmandu-32, Koteshwor
+                {aboutHero.Kicker || "Kathmandu-32, Koteshwor"}
               </motion.div>
 
               <motion.h1
                 variants={fadeUp}
                 className="max-w-2xl font-[var(--font-fraunces)] text-[38px] font-semibold leading-[1.05] tracking-[-0.04em] text-[#083344] sm:text-5xl lg:text-[56px]"
               >
-                A values-led school with a warmer way of learning.
+                {aboutHero.Title ||
+                  "A values-led school with a warmer way of learning."}
               </motion.h1>
 
               <motion.p
                 variants={fadeUp}
                 className="mt-5 max-w-xl text-[15px] leading-7 text-slate-600"
               >
-                Vaidik Vidyapeeth blends care, academic clarity, discipline,
-                creativity, and character-building so every child can grow with
-                confidence.
+                {aboutHero.Description ||
+                  "Vaidik Vidyapeeth blends care, academic clarity, discipline, creativity, and character-building so every child can grow with confidence."}
               </motion.p>
 
-              <motion.div variants={fadeUp} className="mt-7 flex flex-wrap gap-3">
+              <motion.div
+                variants={fadeUp}
+                className="mt-7 flex flex-wrap gap-3"
+              >
                 <Link
-                  href="/academics"
+                  href={aboutHero["Primary Button Link"] || "/academics"}
                   className="group inline-flex items-center rounded-full bg-[#be123c] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#be123c]/20 transition hover:-translate-y-0.5 hover:bg-[#9f1239]"
                 >
-                  Explore Academics
+                  {aboutHero["Primary Button Text"] || "Explore Academics"}
                   <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-1" />
                 </Link>
 
                 <Link
-                  href="/contact"
+                  href={aboutHero["Secondary Button Link"] || "/contact"}
                   className="inline-flex items-center rounded-full border border-[#0f766e]/20 bg-white px-5 py-2.5 text-sm font-bold text-[#0f766e] transition hover:-translate-y-0.5 hover:bg-[#ecfdf5]"
                 >
-                  Book Campus Visit
+                  {aboutHero["Secondary Button Text"] || "Book Campus Visit"}
                 </Link>
               </motion.div>
 
@@ -267,7 +579,7 @@ export default function AboutPage() {
                 variants={fadeUp}
                 className="mt-7 grid max-w-md grid-cols-3 gap-2"
               >
-                {quickFacts.slice(0, 3).map((fact) => (
+                {dynamicQuickFacts.slice(0, 3).map((fact) => (
                   <div
                     key={fact.label}
                     className="rounded-2xl border border-white/80 bg-white/75 p-3 shadow-sm backdrop-blur"
@@ -275,6 +587,7 @@ export default function AboutPage() {
                     <p className="font-[var(--font-fraunces)] text-xl font-semibold text-[#083344]">
                       {fact.value}
                     </p>
+
                     <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
                       {fact.label}
                     </p>
@@ -293,9 +606,9 @@ export default function AboutPage() {
             >
               <div className="relative overflow-hidden rounded-[34px] border border-white bg-white/80 p-2 shadow-2xl shadow-slate-900/[0.08] backdrop-blur">
                 <div className="relative h-[330px] overflow-hidden rounded-[28px] bg-slate-100 sm:h-[430px]">
-                  {heroSlides.map((slide, index) => (
+                  {dynamicHeroSlides.map((slide, index) => (
                     <motion.div
-                      key={slide.src}
+                      key={`${slide.src}-${index}`}
                       initial={false}
                       animate={{
                         opacity: activeSlide === index ? 1 : 0,
@@ -320,6 +633,7 @@ export default function AboutPage() {
                         <p className="font-[var(--font-fraunces)] text-3xl font-semibold leading-tight">
                           {slide.title}
                         </p>
+
                         <p className="mt-2 max-w-md text-sm leading-6 text-white/80">
                           {slide.text}
                         </p>
@@ -346,13 +660,15 @@ export default function AboutPage() {
                   </button>
 
                   <div className="absolute right-5 top-5 flex gap-2">
-                    {heroSlides.map((_, index) => (
+                    {dynamicHeroSlides.map((_, index) => (
                       <button
                         key={index}
                         type="button"
                         onClick={() => setActiveSlide(index)}
                         className={`h-2 rounded-full transition-all ${
-                          activeSlide === index ? "w-6 bg-white" : "w-2 bg-white/50"
+                          activeSlide === index
+                            ? "w-6 bg-white"
+                            : "w-2 bg-white/50"
                         }`}
                         aria-label={`Go to slide ${index + 1}`}
                       />
@@ -369,29 +685,8 @@ export default function AboutPage() {
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white/40" />
 
           <div className="relative mx-auto grid max-w-6xl gap-3 md:grid-cols-4">
-            {[
-              {
-                icon: School,
-                title: "Academic Care",
-                color: "bg-[#0f766e]",
-              },
-              {
-                icon: HeartHandshake,
-                title: "Values First",
-                color: "bg-[#be123c]",
-              },
-              {
-                icon: BookOpen,
-                title: "Guided Routine",
-                color: "bg-[#0e7490]",
-              },
-              {
-                icon: MapPin,
-                title: "Koteshwor Based",
-                color: "bg-[#2563eb]",
-              },
-            ].map((item) => {
-              const Icon = item.icon;
+            {dynamicColorStrip.map((item) => {
+              const Icon = getIcon(item.iconName, School);
 
               return (
                 <motion.div
@@ -404,6 +699,7 @@ export default function AboutPage() {
                   >
                     <Icon className="h-5 w-5" />
                   </div>
+
                   <p className="text-sm font-extrabold text-[#083344]">
                     {item.title}
                   </p>
@@ -446,8 +742,8 @@ export default function AboutPage() {
               className="grid gap-3"
             >
               <div className="grid gap-3 sm:grid-cols-3">
-                {identityTabs.map((tab) => {
-                  const Icon = tab.icon;
+                {dynamicIdentityTabs.map((tab) => {
+                  const Icon = getIcon(tab.iconName, HeartHandshake);
                   const isActive = activeTab === tab.key;
 
                   return (
@@ -468,6 +764,7 @@ export default function AboutPage() {
                           isActive ? "text-[#67e8f9]" : "text-[#be123c]"
                         }`}
                       />
+
                       <p className="mt-3 text-sm font-extrabold">
                         {tab.label}
                       </p>
@@ -476,27 +773,29 @@ export default function AboutPage() {
                 })}
               </div>
 
-              <motion.div
-                key={activeTabData.key}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`overflow-hidden rounded-[30px] bg-gradient-to-br ${activeTabData.color} p-[1px] shadow-lg shadow-slate-900/[0.05]`}
-              >
-                <div className="rounded-[29px] bg-white/90 p-6 backdrop-blur">
-                  <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#be123c]">
-                    {activeTabData.label}
-                  </p>
+              {activeTabData && (
+                <motion.div
+                  key={activeTabData.key}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className={`overflow-hidden rounded-[30px] bg-gradient-to-br ${activeTabData.color} p-[1px] shadow-lg shadow-slate-900/[0.05]`}
+                >
+                  <div className="rounded-[29px] bg-white/90 p-6 backdrop-blur">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#be123c]">
+                      {activeTabData.label}
+                    </p>
 
-                  <h3 className="mt-3 font-[var(--font-fraunces)] text-2xl font-semibold leading-snug text-[#083344]">
-                    {activeTabData.title}
-                  </h3>
+                    <h3 className="mt-3 font-[var(--font-fraunces)] text-2xl font-semibold leading-snug text-[#083344]">
+                      {activeTabData.title}
+                    </h3>
 
-                  <p className="mt-3 text-sm leading-7 text-slate-600">
-                    {activeTabData.text}
-                  </p>
-                </div>
-              </motion.div>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                      {activeTabData.text}
+                    </p>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           </div>
         </section>
@@ -529,6 +828,7 @@ export default function AboutPage() {
 
               <div className="mt-5 rounded-3xl bg-white/10 p-5">
                 <p className="text-sm text-white/70">Estimated Monthly Fee</p>
+
                 <p className="mt-1 font-[var(--font-fraunces)] text-4xl font-semibold">
                   Rs. {estimatedFee.toLocaleString()}
                 </p>
@@ -561,7 +861,8 @@ export default function AboutPage() {
                       : "border-white/10 bg-white/10 text-white/75"
                   }`}
                 >
-                  Transport + Rs. 1,800
+                  Transport + Rs.{" "}
+                  {Number(feeData["Transport Fee"] || 1800).toLocaleString()}
                 </button>
 
                 <button
@@ -573,12 +874,14 @@ export default function AboutPage() {
                       : "border-white/10 bg-white/10 text-white/75"
                   }`}
                 >
-                  Hostel + Rs. 6,500
+                  Hostel + Rs.{" "}
+                  {Number(feeData["Hostel Fee"] || 6500).toLocaleString()}
                 </button>
               </div>
 
               <p className="mt-4 text-xs leading-6 text-white/55">
-                Demo estimate only. Replace numbers with official school fees.
+                {feeData["Note Text"] ||
+                  "Demo estimate only. Replace numbers with official school fees."}
               </p>
             </motion.div>
 
@@ -603,9 +906,9 @@ export default function AboutPage() {
               </h2>
 
               <div className="mt-5 space-y-3">
-                {fitQuestions.map((question, index) => (
+                {dynamicFitQuestions.map((item, index) => (
                   <button
-                    key={question}
+                    key={`${item.question}-${index}`}
                     type="button"
                     onClick={() =>
                       setFitAnswers((prev) =>
@@ -629,7 +932,7 @@ export default function AboutPage() {
                     </span>
 
                     <span className="text-sm font-bold text-slate-700">
-                      {question}
+                      {item.question}
                     </span>
                   </button>
                 ))}
@@ -637,15 +940,13 @@ export default function AboutPage() {
 
               <div className="mt-5 rounded-3xl bg-gradient-to-r from-[#0f766e] to-[#0e7490] p-5 text-white">
                 <p className="text-sm font-bold">Match Score</p>
+
                 <p className="mt-1 font-[var(--font-fraunces)] text-4xl font-semibold">
-                  {fitScore}/3
+                  {fitScore}/{dynamicFitQuestions.length}
                 </p>
+
                 <p className="mt-2 text-xs leading-6 text-white/75">
-                  {fitScore === 3
-                    ? "Great match for your priorities."
-                    : fitScore === 2
-                    ? "Good match. A visit may help confirm."
-                    : "Select what matters most to you."}
+                  {fitResultMessage}
                 </p>
               </div>
             </motion.div>
@@ -681,40 +982,38 @@ export default function AboutPage() {
               viewport={{ once: true, amount: 0.25 }}
               className="mt-9 grid gap-4 md:grid-cols-3"
             >
-              {schoolValues.map((item, index) => (
-                <motion.article
-                  key={item.title}
-                  variants={fadeUp}
-                  whileHover={{ y: -6 }}
-                  className="group rounded-[30px] border border-white/80 bg-white/75 p-6 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-xl hover:shadow-slate-900/[0.07]"
-                >
-                  <div className="mb-5 flex items-center justify-between">
-                    <div
-                      className={`flex h-11 w-11 items-center justify-center rounded-2xl text-white ${
-                        index === 0
-                          ? "bg-[#0f766e]"
-                          : index === 1
-                          ? "bg-[#be123c]"
-                          : "bg-[#0e7490]"
-                      }`}
-                    >
-                      <BookOpen className="h-5 w-5" />
+              {dynamicCoreValues.map((item, index) => {
+                const Icon = getIcon(item.iconName, BookOpen);
+
+                return (
+                  <motion.article
+                    key={`${item.title}-${index}`}
+                    variants={fadeUp}
+                    whileHover={{ y: -6 }}
+                    className="group rounded-[30px] border border-white/80 bg-white/75 p-6 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-xl hover:shadow-slate-900/[0.07]"
+                  >
+                    <div className="mb-5 flex items-center justify-between">
+                      <div
+                        className={`flex h-11 w-11 items-center justify-center rounded-2xl text-white ${item.color}`}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </div>
+
+                      <span className="font-[var(--font-fraunces)] text-xl text-slate-300">
+                        0{index + 1}
+                      </span>
                     </div>
 
-                    <span className="font-[var(--font-fraunces)] text-xl text-slate-300">
-                      0{index + 1}
-                    </span>
-                  </div>
+                    <h3 className="font-[var(--font-fraunces)] text-2xl font-semibold text-[#083344]">
+                      {item.title}
+                    </h3>
 
-                  <h3 className="font-[var(--font-fraunces)] text-2xl font-semibold text-[#083344]">
-                    {item.title}
-                  </h3>
-
-                  <p className="mt-3 text-sm leading-7 text-slate-600">
-                    {item.text}
-                  </p>
-                </motion.article>
-              ))}
+                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                      {item.text}
+                    </p>
+                  </motion.article>
+                );
+              })}
             </motion.div>
           </div>
         </section>
@@ -743,7 +1042,7 @@ export default function AboutPage() {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {["All", "Academics", "Activities", "Events"].map((item) => (
+                {albumCategories.map((item) => (
                   <button
                     key={item}
                     type="button"
@@ -760,11 +1059,14 @@ export default function AboutPage() {
               </div>
             </motion.div>
 
-            <motion.div layout className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <motion.div
+              layout
+              className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
               {filteredAlbum.map((image) => (
                 <motion.article
                   layout
-                  key={image.src}
+                  key={`${image.src}-${image.title}`}
                   initial={{ opacity: 0, scale: 0.97 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
@@ -774,7 +1076,7 @@ export default function AboutPage() {
                   <div className="relative h-64 overflow-hidden rounded-[24px] bg-slate-100">
                     <img
                       src={image.src}
-                      alt={image.title}
+                      alt={image.alt}
                       className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                     />
 
@@ -785,7 +1087,10 @@ export default function AboutPage() {
                         <p className="text-sm font-extrabold text-white">
                           {image.title}
                         </p>
-                        <p className="text-xs text-white/75">{image.category}</p>
+
+                        <p className="text-xs text-white/75">
+                          {image.category}
+                        </p>
                       </div>
 
                       <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#be123c]">
@@ -832,12 +1137,12 @@ export default function AboutPage() {
               viewport={{ once: true, amount: 0.25 }}
               className="space-y-3"
             >
-              {faqs.map((item, index) => {
+              {dynamicFaqs.map((item, index) => {
                 const isOpen = openFaq === index;
 
                 return (
                   <motion.div
-                    key={item.q}
+                    key={`${item.q}-${index}`}
                     variants={fadeUp}
                     className="rounded-3xl border border-white/80 bg-white/75 p-4 shadow-sm backdrop-blur transition hover:bg-white"
                   >
@@ -890,24 +1195,25 @@ export default function AboutPage() {
 
             <div className="relative z-10">
               <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-white/75">
-                Visit Our School
+                {ctaData.Eyebrow || "Visit Our School"}
               </p>
 
               <h2 className="mt-3 max-w-2xl font-[var(--font-fraunces)] text-3xl font-semibold tracking-[-0.02em]">
-                Experience the campus, classrooms, and culture in person.
+                {ctaData.Title ||
+                  "Experience the campus, classrooms, and culture in person."}
               </h2>
 
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/75">
-                Book a visit and see how values, academics, and care come
-                together at Vaidik Vidyapeeth.
+                {ctaData.Description ||
+                  "Book a visit and see how values, academics, and care come together at Vaidik Vidyapeeth."}
               </p>
             </div>
 
             <Link
-              href="/contact"
+              href={ctaData["Button Link"] || "/contact"}
               className="group relative z-10 shrink-0 rounded-full bg-white px-5 py-2.5 text-sm font-extrabold text-[#be123c] transition hover:-translate-y-0.5 hover:bg-[#fff1f2]"
             >
-              Book Campus Visit
+              {ctaData["Button Text"] || "Book Campus Visit"}
               <ArrowRight className="ml-2 inline h-4 w-4 transition group-hover:translate-x-1" />
             </Link>
           </motion.div>

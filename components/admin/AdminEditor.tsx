@@ -8,6 +8,7 @@ import SimpleFieldsShell from "./SimpleFieldsShell";
 import MapShell from "./MapShell";
 import ContactDetailsShell from "./ContactDetailsShell";
 import RepeatableSectionShell from "./RepeatableSectionShell";
+import AboutSectionEditor from "./AboutSectionEditor";
 
 export default function AdminEditor({
   page,
@@ -19,6 +20,8 @@ export default function AdminEditor({
   const sectionId = section.id.toLowerCase();
   const isHeroSection =
     sectionId.includes("hero") && !sectionId.includes("carousel");
+
+  const isAboutPage = page === "about";
 
   return (
     <div className="rounded-[2rem] border border-black/10 bg-white/85 p-6 shadow-2xl shadow-slate-900/8 backdrop-blur-xl">
@@ -37,7 +40,7 @@ export default function AdminEditor({
           </p>
         </div>
 
-        {!isHeroSection && (
+        {!isHeroSection && !isAboutPage && (
           <button
             type="button"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-rose-800"
@@ -48,7 +51,9 @@ export default function AdminEditor({
         )}
       </div>
 
-      {isHeroSection ? (
+      {isAboutPage ? (
+        <AboutSectionEditor section={section} />
+      ) : isHeroSection ? (
         <HeroShell section={section} />
       ) : sectionId.includes("cta") ? (
         <SimpleFieldsShell section={section} />
