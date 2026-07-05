@@ -48,8 +48,8 @@ const hero = {
     trustItemThree: "Creativity",
     trustItemFour: "Care",
 
-    miniCardValue: "3",
-    miniCardLabel: "Academic wings",
+    miniCardValue: "Learning Environment",
+    miniCardLabel: "Learning Environment",
 
     visualEyebrow: "School Environment",
     visualTitle: "Structured learning with personal attention",
@@ -224,7 +224,7 @@ export default function HomePage() {
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-                                    {(hero.miniCardValue || hero.miniCardLabel) && (
+                                    {/* {(hero.miniCardValue || hero.miniCardLabel) && (
                                         <div className="hero-mini-card absolute left-5 top-5 z-10 rounded-2xl border border-white/25 bg-white/90 px-5 py-4 text-slate-950 shadow-xl backdrop-blur-md">
                                             {hero.miniCardValue && (
                                                 <span className="hero-mini-card-value block text-3xl font-extrabold leading-none">
@@ -238,9 +238,9 @@ export default function HomePage() {
                                                 </span>
                                             )}
                                         </div>
-                                    )}
+                                    )} */}
 
-                                    <div className="hero-visual-copy relative z-10 flex min-h-[360px] flex-col justify-end p-6 text-white">
+                                    {/* <div className="hero-visual-copy relative z-10 flex min-h-[360px] flex-col justify-end p-6 text-white">
                                         {hero.visualEyebrow && (
                                             <p className="hero-visual-eyebrow text-xs font-semibold uppercase tracking-[0.24em] text-amber-100">
                                                 {hero.visualEyebrow}
@@ -258,7 +258,7 @@ export default function HomePage() {
                                                 {hero.visualText}
                                             </p>
                                         )}
-                                    </div>
+                                    </div> */}
                                 </motion.div>
 
                                 <div className="mt-5 grid gap-3">

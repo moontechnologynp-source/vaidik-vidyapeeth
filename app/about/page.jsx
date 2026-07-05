@@ -86,19 +86,19 @@ const getIcon = (iconName, fallback = BookOpen) => {
 
 const heroSlides = [
   {
-    src: "/images/school-1.jpg",
+    src: "/images/im-8.jpg",
     label: "Learning",
     title: "A peaceful place to learn",
     text: "Bright classrooms, guided routines, and a caring school culture.",
   },
   {
-    src: "/images/school-2.jpg",
+    src: "/images/im-1.jpg",
     label: "Values",
     title: "Discipline with warmth",
     text: "Students grow through respect, responsibility, and daily guidance.",
   },
   {
-    src: "/images/school-3.jpg",
+    src: "/images/im-9.jpg",
     label: "Growth",
     title: "Confidence beyond books",
     text: "Activities and academics work together to shape capable learners.",
@@ -107,32 +107,32 @@ const heroSlides = [
 
 const albumImages = [
   {
-    src: "/images/album-1.jpg",
+    src: "/images/im-1.jpg",
     title: "Morning Assembly",
     category: "Events",
   },
   {
-    src: "/images/album-2.jpg",
+    src: "/images/im-2.jpg",
     title: "Classroom Learning",
     category: "Academics",
   },
   {
-    src: "/images/album-3.jpg",
+    src: "/images/im-3.jpg",
     title: "Creative Activities",
     category: "Activities",
   },
   {
-    src: "/images/album-4.jpg",
+    src: "/images/im-10.jpg",
     title: "School Program",
     category: "Events",
   },
   {
-    src: "/images/album-5.jpg",
+    src: "/images/im-8.jpg",
     title: "Student Activities",
     category: "Activities",
   },
   {
-    src: "/images/album-6.jpg",
+    src: "/images/im-5.jpg",
     title: "Focused Study",
     category: "Academics",
   },
@@ -623,7 +623,7 @@ export default function AboutPage() {
                         className="h-full w-full object-cover"
                       />
 
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#083344]/80 via-[#083344]/10 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#083344]/35 via-[#083344]/5 to-transparent" />
 
                       <div className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-[#be123c] backdrop-blur">
                         {slide.label}
