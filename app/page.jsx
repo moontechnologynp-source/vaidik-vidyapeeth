@@ -21,12 +21,14 @@ const poppins = Poppins({
 
 const cards = [
   {
-    title: "Pre School",
-    eyebrow: "Early Years",
+    title: "Euro Star School",
+    eyebrow: "Pre School",
     text: "A warm, joyful beginning for young learners through Euro Star School.",
     href: "https://eurostarschool.edu.np/",
     external: true,
     icon: School,
+    logo: "/images/eurostarlogon.png",
+    logoAlt: "Euro Star School Logo",
   },
   {
     title: "School",
@@ -35,6 +37,8 @@ const cards = [
     href: "/home",
     external: false,
     icon: GraduationCap,
+    logo: "/vaidiknobg.png",
+    logoAlt: "Vaidik Vidyapeeth Logo",
   },
 ];
 
@@ -109,12 +113,13 @@ export default function ChoosePage() {
                     variants={item}
                     whileHover={{ y: -8, scale: 1.015 }}
                     whileTap={{ scale: 0.985 }}
-                    className="group relative flex aspect-square min-h-[280px] flex-col justify-between overflow-hidden rounded-[2rem] border border-white/70 bg-white/72 p-7 text-left shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-2xl transition duration-300 hover:border-slate-950/15 hover:bg-white"
+                    className="group relative flex aspect-square min-h-[280px] flex-col overflow-hidden rounded-[2rem] border border-white/70 bg-white/72 p-7 text-left shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-2xl transition duration-300 hover:border-slate-950/15 hover:bg-white"
                   >
                     <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-600 via-yellow-400 to-slate-900 opacity-80" />
                     <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-amber-100/70 transition duration-500 group-hover:scale-125" />
                     <div className="absolute -bottom-20 -left-20 h-52 w-52 rounded-full bg-slate-900/[0.04] transition duration-500 group-hover:scale-125" />
 
+                    {/* Top icon and arrow */}
                     <div className="relative z-10 flex items-start justify-between gap-4">
                       <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-lg shadow-slate-950/15 transition duration-300 group-hover:rotate-3 group-hover:scale-105">
                         <Icon className="h-6 w-6" />
@@ -129,6 +134,21 @@ export default function ChoosePage() {
                       </span>
                     </div>
 
+                    {/* Logo in the empty gap */}
+                    <div className="relative z-10 flex flex-1 items-center justify-center py-4">
+                      <div className="flex items-center justify-center p-4 transition duration-300 group-hover:scale-105">
+                        <img
+                          src={card.logo}
+                          alt={card.logoAlt}
+                          className={`object-contain ${card.logo === "/vaidiknobg.png"
+                              ? "max-h-40 max-w-40"
+                              : "max-h-65 max-w-65"
+                            }`}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Text content */}
                     <div className="relative z-10">
                       <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-700">
                         {card.eyebrow}

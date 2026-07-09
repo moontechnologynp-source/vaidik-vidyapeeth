@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import BrandMark from "./brand-mark";
+// import BrandMark from "./brand-mark";
 import { navigation } from "../lib/site-content";
+import Image from "next/image";
 
 export default function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,11 +56,34 @@ export default function SiteHeader() {
         <header className="site-header">
           <div className="flex items-center justify-between gap-4">
             <Link
-              href="/"
-              className="inline-flex min-w-0"
+              href="/home"
+              className="inline-flex items-center gap-3 min-w-0"
               onClick={() => setIsMenuOpen(false)}
             >
-              <BrandMark compact />
+              <Image
+                src="/images/logo.jpeg"
+                alt="Vaidik Vidyapeeth"
+                width={60}
+                height={60}
+                priority
+                className="h-12 w-auto shrink-0 lg:h-14"
+              />
+
+              <div className="min-w-0 leading-none">
+                <div
+                  className="truncate text-base font-serif uppercase sm:text-lg"
+                  style={{ color: "var(--brand-blue)" }}
+                >
+                  Vaidik Vidyapeeth
+                </div>
+
+                <div
+                  className="mt-1 truncate text-[9px] uppercase tracking-widest sm:text-[10px]"
+                  style={{ color: "var(--brand-red)" }}
+                >
+                  Kathmandu-32, Koteshwor
+                </div>
+              </div>
             </Link>
 
             {/* Show menu button until lg */}
