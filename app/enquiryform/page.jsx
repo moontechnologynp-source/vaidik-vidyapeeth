@@ -35,7 +35,7 @@ export default function EnquiryFormPage() {
           <div className="max-w-3xl">
             <p className="section-eyebrow">Enquiry Form</p>
             <h1 className="page-title">
-              Ask your questions about Vaidik Vidyapeeth.
+              Ask your questions about VAIDIK VIDYAPEETH.
             </h1>
             <p className="page-copy">
               Send us your enquiry about admissions, academics, facilities,
@@ -75,7 +75,7 @@ export default function EnquiryFormPage() {
                   </p>
 
                   <p className="mt-1 text-sm leading-6 text-slate-500">
-                    Kathmandu-32, Koteshwor
+                    Gothatar, Kathmandu
                   </p>
                 </div>
 

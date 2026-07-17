@@ -45,7 +45,7 @@ export default function OnlineAdmissionFormPage() {
             <p className="section-eyebrow">Online Admission</p>
 
             <h1 className="page-title">
-              Apply for admission at Vaidik Vidyapeeth.
+              Apply for admission at VAIDIK VIDYAPEETH.
             </h1>
 
             <p className="page-copy">

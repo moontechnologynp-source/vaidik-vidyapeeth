@@ -32,10 +32,10 @@ const poppins = Poppins({
 });
 
 const hero = {
-    kicker: "Kathmandu-32, Koteshwor",
+    kicker: "Gothatar, Kathmandu",
     title: "A school where values, learning, and confidence grow together.",
     subtitle:
-        "Vaidik Vidyapeeth provides a calm, disciplined, and inspiring learning environment where students are guided academically, socially, and personally.",
+        "VAIDIK VIDYAPEETH provides a calm, disciplined, and inspiring learning environment where students are guided academically, socially, and personally.",
 
     primaryButtonText: "Apply for Admission",
     primaryButtonLink: "/admissions",
@@ -322,7 +322,7 @@ export default function HomePage() {
                                 viewport={{ once: true, amount: 0.3 }}
                             >
                                 <SectionHeading
-                                    eyebrow="About Vaidik Vidyapeeth"
+                                    eyebrow="About VAIDIK VIDYAPEETH"
                                     title="A thoughtful school experience built around learning and character."
                                     text="We believe education should help children become capable, respectful, confident, and curious. Our approach combines academic structure with values, creativity, and guided participation."
                                 />
@@ -469,7 +469,7 @@ export default function HomePage() {
                                 <SectionHeading
                                     eyebrow="Why Choose Us"
                                     title="A balanced environment for academics, values, and personal growth."
-                                    text="Vaidik Vidyapeeth focuses on building good learners and good individuals through a structured school routine and supportive guidance."
+                                    text="VAIDIK VIDYAPEETH focuses on building good learners and good individuals through a structured school routine and supportive guidance."
                                 />
 
                                 <Link

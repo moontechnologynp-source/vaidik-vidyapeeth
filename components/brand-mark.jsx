@@ -10,7 +10,7 @@ export default function BrandMark({ compact = false }) {
             ? "h-11 w-16 shrink-0 sm:h-12 sm:w-[4.25rem]"
             : "h-40 w-auto sm:h-48"
         }
-        aria-label="Vaidik Vidyapeeth logo"
+        aria-label="VAIDIK VIDYAPEETH logo"
         role="img"
         style={{
           filter: compact
@@ -114,13 +114,13 @@ export default function BrandMark({ compact = false }) {
           className={`${compact ? "truncate text-[0.82rem] sm:text-base" : "text-3xl sm:text-4xl"} font-serif uppercase tracking-normal`}
           style={{ color: "var(--brand-blue)" }}
         >
-          Vaidik Vidyapeeth
+          VAIDIK VIDYAPEETH
         </div>
         <div
           className={`${compact ? "truncate text-[8px] sm:text-[10px]" : "mt-2 text-xs sm:text-sm"} uppercase tracking-widest`}
           style={{ color: "var(--brand-red)", letterSpacing: ".1em" }}
         >
-          Kathmandu-32, Koteshwor
+          Gothatar, Kathmandu
         </div>
       </div>
     </div>

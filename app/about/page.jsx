@@ -190,7 +190,7 @@ const identityTabs = [
 
 const faqs = [
   {
-    q: "What makes Vaidik Vidyapeeth different?",
+    q: "What makes  different?",
     a: "The school balances academic expectations with care, discipline, character-building, and parent communication.",
   },
   {
@@ -260,10 +260,10 @@ export default function AboutPage() {
 
   const aboutHero = useMemo(() => {
     return parseSingleSection(aboutData, "aboutHero", {
-      Kicker: "Kathmandu-32, Koteshwor",
+      Kicker: "Gothatar, Kathmandu",
       Title: "A values-led school with a warmer way of learning.",
       Description:
-        "Vaidik Vidyapeeth blends care, academic clarity, discipline, creativity, and character-building so every child can grow with confidence.",
+        "VAIDIK VIDYAPEETH blends care, academic clarity, discipline, creativity, and character-building so every child can grow with confidence.",
       "Primary Button Text": "Explore Academics",
       "Primary Button Link": "/academics",
       "Secondary Button Text": "Book Campus Visit",
@@ -364,8 +364,8 @@ export default function AboutPage() {
           (index === 0
             ? "bg-[#0f766e]"
             : index === 1
-            ? "bg-[#be123c]"
-            : "bg-[#0e7490]"),
+              ? "bg-[#be123c]"
+              : "bg-[#0e7490]"),
       })
     );
   }, [aboutData]);
@@ -395,7 +395,7 @@ export default function AboutPage() {
       Eyebrow: "Visit Our School",
       Title: "Experience the campus, classrooms, and culture in person.",
       Description:
-        "Book a visit and see how values, academics, and care come together at Vaidik Vidyapeeth.",
+        "Book a visit and see how values, academics, and care come together at VAIDIK VIDYAPEETH.",
       "Button Text": "Book Campus Visit",
       "Button Link": "/contact",
     });
@@ -452,8 +452,8 @@ export default function AboutPage() {
       grade === "Pre-Primary"
         ? prePrimaryFee
         : grade === "Primary"
-        ? primaryFee
-        : secondaryFee;
+          ? primaryFee
+          : secondaryFee;
 
     return base + (transport ? transportFee : 0) + (hostel ? hostelFee : 0);
   }, [grade, transport, hostel, feeData]);
@@ -536,7 +536,7 @@ export default function AboutPage() {
                 className="mb-4 flex w-fit items-center gap-2 rounded-full border border-[#0f766e]/15 bg-white/80 px-3.5 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#0f766e] shadow-sm backdrop-blur"
               >
                 <Star className="h-3.5 w-3.5 fill-[#be123c] text-[#be123c]" />
-                {aboutHero.Kicker || "Kathmandu-32, Koteshwor"}
+                {aboutHero.Kicker || "Gothatar, Kathmandu"}
               </motion.div>
 
               <motion.h1
@@ -552,7 +552,7 @@ export default function AboutPage() {
                 className="mt-5 max-w-xl text-[15px] leading-7 text-slate-600"
               >
                 {aboutHero.Description ||
-                  "Vaidik Vidyapeeth blends care, academic clarity, discipline, creativity, and character-building so every child can grow with confidence."}
+                  "VAIDIK VIDYAPEETH blends care, academic clarity, discipline, creativity, and character-building so every child can grow with confidence."}
               </motion.p>
 
               <motion.div
@@ -665,11 +665,10 @@ export default function AboutPage() {
                         key={index}
                         type="button"
                         onClick={() => setActiveSlide(index)}
-                        className={`h-2 rounded-full transition-all ${
-                          activeSlide === index
-                            ? "w-6 bg-white"
-                            : "w-2 bg-white/50"
-                        }`}
+                        className={`h-2 rounded-full transition-all ${activeSlide === index
+                          ? "w-6 bg-white"
+                          : "w-2 bg-white/50"
+                          }`}
                         aria-label={`Go to slide ${index + 1}`}
                       />
                     ))}
@@ -753,16 +752,14 @@ export default function AboutPage() {
                       type="button"
                       onClick={() => setActiveTab(tab.key)}
                       whileHover={{ y: -3 }}
-                      className={`rounded-3xl border p-4 text-left transition ${
-                        isActive
-                          ? "border-transparent bg-[#083344] text-white shadow-lg shadow-[#083344]/15"
-                          : "border-white/80 bg-white/70 text-[#083344] shadow-sm backdrop-blur hover:bg-white hover:shadow-md"
-                      }`}
+                      className={`rounded-3xl border p-4 text-left transition ${isActive
+                        ? "border-transparent bg-[#083344] text-white shadow-lg shadow-[#083344]/15"
+                        : "border-white/80 bg-white/70 text-[#083344] shadow-sm backdrop-blur hover:bg-white hover:shadow-md"
+                        }`}
                     >
                       <Icon
-                        className={`h-5 w-5 ${
-                          isActive ? "text-[#67e8f9]" : "text-[#be123c]"
-                        }`}
+                        className={`h-5 w-5 ${isActive ? "text-[#67e8f9]" : "text-[#be123c]"
+                          }`}
                       />
 
                       <p className="mt-3 text-sm font-extrabold">
@@ -840,11 +837,10 @@ export default function AboutPage() {
                     key={item}
                     type="button"
                     onClick={() => setGrade(item)}
-                    className={`rounded-2xl px-3 py-2.5 text-xs font-extrabold transition ${
-                      grade === item
-                        ? "bg-white text-[#083344]"
-                        : "bg-white/10 text-white/75 hover:bg-white/15"
-                    }`}
+                    className={`rounded-2xl px-3 py-2.5 text-xs font-extrabold transition ${grade === item
+                      ? "bg-white text-[#083344]"
+                      : "bg-white/10 text-white/75 hover:bg-white/15"
+                      }`}
                   >
                     {item}
                   </button>
@@ -855,11 +851,10 @@ export default function AboutPage() {
                 <button
                   type="button"
                   onClick={() => setTransport(!transport)}
-                  className={`rounded-2xl border px-4 py-3 text-left text-sm font-bold transition ${
-                    transport
-                      ? "border-cyan-200 bg-cyan-100 text-[#083344]"
-                      : "border-white/10 bg-white/10 text-white/75"
-                  }`}
+                  className={`rounded-2xl border px-4 py-3 text-left text-sm font-bold transition ${transport
+                    ? "border-cyan-200 bg-cyan-100 text-[#083344]"
+                    : "border-white/10 bg-white/10 text-white/75"
+                    }`}
                 >
                   Transport + Rs.{" "}
                   {Number(feeData["Transport Fee"] || 1800).toLocaleString()}
@@ -868,11 +863,10 @@ export default function AboutPage() {
                 <button
                   type="button"
                   onClick={() => setHostel(!hostel)}
-                  className={`rounded-2xl border px-4 py-3 text-left text-sm font-bold transition ${
-                    hostel
-                      ? "border-cyan-200 bg-cyan-100 text-[#083344]"
-                      : "border-white/10 bg-white/10 text-white/75"
-                  }`}
+                  className={`rounded-2xl border px-4 py-3 text-left text-sm font-bold transition ${hostel
+                    ? "border-cyan-200 bg-cyan-100 text-[#083344]"
+                    : "border-white/10 bg-white/10 text-white/75"
+                    }`}
                 >
                   Hostel + Rs.{" "}
                   {Number(feeData["Hostel Fee"] || 6500).toLocaleString()}
@@ -915,18 +909,16 @@ export default function AboutPage() {
                         prev.map((value, i) => (i === index ? !value : value))
                       )
                     }
-                    className={`flex w-full items-center gap-3 rounded-2xl border p-4 text-left transition ${
-                      fitAnswers[index]
-                        ? "border-[#0f766e]/20 bg-[#ecfdf5]"
-                        : "border-white/80 bg-white/70 hover:bg-white"
-                    }`}
+                    className={`flex w-full items-center gap-3 rounded-2xl border p-4 text-left transition ${fitAnswers[index]
+                      ? "border-[#0f766e]/20 bg-[#ecfdf5]"
+                      : "border-white/80 bg-white/70 hover:bg-white"
+                      }`}
                   >
                     <span
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
-                        fitAnswers[index]
-                          ? "bg-[#0f766e] text-white"
-                          : "bg-white text-slate-300"
-                      }`}
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${fitAnswers[index]
+                        ? "bg-[#0f766e] text-white"
+                        : "bg-white text-slate-300"
+                        }`}
                     >
                       <CheckCircle2 className="h-4 w-4" />
                     </span>
@@ -1047,11 +1039,10 @@ export default function AboutPage() {
                     key={item}
                     type="button"
                     onClick={() => setAlbumFilter(item)}
-                    className={`rounded-full px-4 py-2 text-sm font-extrabold transition ${
-                      albumFilter === item
-                        ? "bg-[#be123c] text-white"
-                        : "bg-white/80 text-slate-600 shadow-sm backdrop-blur hover:text-[#be123c]"
-                    }`}
+                    className={`rounded-full px-4 py-2 text-sm font-extrabold transition ${albumFilter === item
+                      ? "bg-[#be123c] text-white"
+                      : "bg-white/80 text-slate-600 shadow-sm backdrop-blur hover:text-[#be123c]"
+                      }`}
                   >
                     {item}
                   </button>
@@ -1156,9 +1147,8 @@ export default function AboutPage() {
                       </span>
 
                       <ChevronDown
-                        className={`h-5 w-5 text-[#be123c] transition ${
-                          isOpen ? "rotate-180" : ""
-                        }`}
+                        className={`h-5 w-5 text-[#be123c] transition ${isOpen ? "rotate-180" : ""
+                          }`}
                       />
                     </button>
 
@@ -1205,7 +1195,7 @@ export default function AboutPage() {
 
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/75">
                 {ctaData.Description ||
-                  "Book a visit and see how values, academics, and care come together at Vaidik Vidyapeeth."}
+                  "Book a visit and see how values, academics, and care come together at VAIDIK VIDYAPEETH."}
               </p>
             </div>
 

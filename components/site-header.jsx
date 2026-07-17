@@ -29,7 +29,7 @@ export default function SiteHeader() {
                   opacity=".7"
                 />
               </svg>
-              Kathmandu-32, Koteshwor
+              Gothatar, Kathmandu
             </span>
 
             <span className="hidden sm:inline">·</span>
@@ -61,8 +61,8 @@ export default function SiteHeader() {
               onClick={() => setIsMenuOpen(false)}
             >
               <Image
-                src="/images/logo.jpeg"
-                alt="Vaidik Vidyapeeth"
+                src="/logo.png"
+                alt="VAIDIK VIDYAPEETH"
                 width={60}
                 height={60}
                 priority
@@ -74,14 +74,14 @@ export default function SiteHeader() {
                   className="truncate text-base font-serif uppercase sm:text-lg"
                   style={{ color: "var(--brand-blue)" }}
                 >
-                  Vaidik Vidyapeeth
+                  VAIDIK VIDYAPEETH
                 </div>
 
                 <div
                   className="mt-1 truncate text-[9px] uppercase tracking-widest sm:text-[10px]"
                   style={{ color: "var(--brand-red)" }}
                 >
-                  Kathmandu-32, Koteshwor
+                  Gothatar, Kathmandu
                 </div>
               </div>
             </Link>

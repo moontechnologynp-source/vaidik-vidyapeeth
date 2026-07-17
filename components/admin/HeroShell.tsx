@@ -292,7 +292,7 @@ export default function HeroShell({ section }: { section: SectionItem }) {
 
             <Input
               label="Kicker"
-              placeholder="Kathmandu-32, Koteshwor"
+              placeholder="Gothatar, Kathmandu"
               value={form.kicker}
               onChange={(value) => updateField("kicker", value)}
             />

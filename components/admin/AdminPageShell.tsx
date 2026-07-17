@@ -31,7 +31,7 @@ export default function AdminPageShell() {
         {/* HEADER */}
         <div className="mb-6 rounded-[2rem] border border-black/10 bg-white/85 p-6 shadow-xl shadow-slate-900/5 backdrop-blur-xl">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-rose-700">
-            Vaidik Vidyapeeth
+            VAIDIK VIDYAPEETH
           </p>
 
           <div className="mt-2 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -68,11 +68,10 @@ export default function AdminPageShell() {
                   key={page.id}
                   type="button"
                   onClick={() => handlePageChange(page.id)}
-                  className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold transition ${
-                    isActive
+                  className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold transition ${isActive
                       ? "bg-slate-950 text-white shadow-lg shadow-slate-900/15"
                       : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
-                  }`}
+                    }`}
                 >
                   <Icon className="h-4 w-4" />
                   {page.label}
@@ -108,19 +107,17 @@ export default function AdminPageShell() {
                     key={section.id}
                     type="button"
                     onClick={() => setActiveSectionId(section.id)}
-                    className={`group flex items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${
-                      isActive
+                    className={`group flex items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${isActive
                         ? "bg-slate-950 text-white shadow-lg shadow-slate-900/15"
                         : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
-                    }`}
+                      }`}
                   >
                     <span className="flex items-center gap-3">
                       <span
-                        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-extrabold ${
-                          isActive
+                        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-extrabold ${isActive
                             ? "bg-white/15 text-white"
                             : "bg-rose-50 text-rose-700"
-                        }`}
+                          }`}
                       >
                         {index + 1}
                       </span>

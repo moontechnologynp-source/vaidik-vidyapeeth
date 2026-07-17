@@ -32,13 +32,13 @@ const cards = [
   },
   {
     title: "School",
-    eyebrow: "Vaidik Vidyapeeth",
+    eyebrow: "VAIDIK VIDYAPEETH",
     text: "Continue to the main school landing page for academics, admissions, and more.",
     href: "/home",
     external: false,
     icon: GraduationCap,
-    logo: "/vaidiknobg.png",
-    logoAlt: "Vaidik Vidyapeeth Logo",
+    logo: "/logo.png",
+    logoAlt: "VAIDIK VIDYAPEETH Logo",
   },
 ];
 
@@ -140,9 +140,9 @@ export default function ChoosePage() {
                         <img
                           src={card.logo}
                           alt={card.logoAlt}
-                          className={`object-contain ${card.logo === "/vaidiknobg.png"
-                              ? "max-h-40 max-w-40"
-                              : "max-h-65 max-w-65"
+                          className={`object-contain ${card.logo === "/logo.png"
+                            ? "max-h-40 max-w-40"
+                            : "max-h-65 max-w-65"
                             }`}
                         />
                       </div>

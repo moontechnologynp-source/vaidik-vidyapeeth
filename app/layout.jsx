@@ -2,9 +2,9 @@ import "./globals.css";
 
 export const metadata = {
   metadataBase: new URL("https://your-domain.com"), // replace with your actual domain
-  title: "Vaidik Vidyapeeth | School In Kathmandu-32, Koteshwor",
+  title: "VAIDIK VIDYAPEETH | School In Gothatar, Kathmandu",
   description:
-    "Vaidik Vidyapeeth in Kathmandu-32, Koteshwor, offering values-led learning, clear academics, and a caring school environment.",
+    "VAIDIK VIDYAPEETH in Gothatar, Kathmandu, offering values-led learning, clear academics, and a caring school environment.",
   icons: {
     icon: [
       { url: "/icon.png?v=2", sizes: "32x32", type: "image/png" },
@@ -14,15 +14,15 @@ export const metadata = {
     apple: [{ url: "/apple-icon.png?v=2", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "Vaidik Vidyapeeth | School In Kathmandu-32, Koteshwor",
+    title: "VAIDIK VIDYAPEETH | School In Gothatar, Kathmandu",
     description:
-      "Vaidik Vidyapeeth in Kathmandu-32, Koteshwor, offering values-led learning, clear academics, and a caring school environment.",
+      "VAIDIK VIDYAPEETH in Gothatar, Kathmandu, offering values-led learning, clear academics, and a caring school environment.",
     images: [
       {
         url: "/logo.jpeg",
         width: 1200,
         height: 630,
-        alt: "Vaidik Vidyapeeth School",
+        alt: "VAIDIK VIDYAPEETH School",
       },
     ],
   },

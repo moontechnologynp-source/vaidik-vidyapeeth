@@ -141,7 +141,7 @@ export default function AcademicsPage() {
                 variants={fadeUp}
                 className="mt-5 max-w-xl text-[15px] leading-7 text-slate-600"
               >
-                Learning at Vaidik Vidyapeeth moves from clear concepts to
+                Learning at VAIDIK VIDYAPEETH moves from clear concepts to
                 regular practice, active participation, and confident
                 presentation.
               </motion.p>
@@ -252,16 +252,14 @@ export default function AcademicsPage() {
                       type="button"
                       onClick={() => setActiveProgram(index)}
                       whileHover={{ y: -3 }}
-                      className={`rounded-3xl border p-4 text-left transition ${
-                        isActive
+                      className={`rounded-3xl border p-4 text-left transition ${isActive
                           ? "border-transparent bg-[#083344] text-white shadow-lg shadow-[#083344]/15"
                           : "border-slate-100 bg-[#f8fbfb] text-[#083344] hover:bg-white hover:shadow-md"
-                      }`}
+                        }`}
                     >
                       <BookOpen
-                        className={`h-5 w-5 ${
-                          isActive ? "text-cyan-200" : "text-[#be123c]"
-                        }`}
+                        className={`h-5 w-5 ${isActive ? "text-cyan-200" : "text-[#be123c]"
+                          }`}
                       />
 
                       <p className="mt-3 text-sm font-extrabold">
@@ -336,15 +334,14 @@ export default function AcademicsPage() {
                   className="rounded-[30px] border border-slate-100 bg-white p-6 shadow-sm transition hover:shadow-xl hover:shadow-slate-900/[0.05]"
                 >
                   <div
-                    className={`mb-5 flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-extrabold text-white ${
-                      index === 0
+                    className={`mb-5 flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-extrabold text-white ${index === 0
                         ? "bg-[#0f766e]"
                         : index === 1
-                        ? "bg-[#be123c]"
-                        : index === 2
-                        ? "bg-[#0e7490]"
-                        : "bg-[#2563eb]"
-                    }`}
+                          ? "bg-[#be123c]"
+                          : index === 2
+                            ? "bg-[#0e7490]"
+                            : "bg-[#2563eb]"
+                      }`}
                   >
                     {index + 1}
                   </div>
@@ -395,11 +392,10 @@ export default function AcademicsPage() {
                     key={item.key}
                     type="button"
                     onClick={() => setActiveStyle(item.key)}
-                    className={`rounded-2xl px-4 py-3 text-left text-sm font-extrabold transition ${
-                      activeStyle === item.key
+                    className={`rounded-2xl px-4 py-3 text-left text-sm font-extrabold transition ${activeStyle === item.key
                         ? "bg-white text-[#083344]"
                         : "bg-white/10 text-white/70 hover:bg-white/15"
-                    }`}
+                      }`}
                   >
                     {item.title}
                   </button>
@@ -529,7 +525,7 @@ export default function AcademicsPage() {
 
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/75">
                 Explore programs, visit the campus, and understand how learning
-                happens at Vaidik Vidyapeeth.
+                happens at VAIDIK VIDYAPEETH.
               </p>
             </div>
 
